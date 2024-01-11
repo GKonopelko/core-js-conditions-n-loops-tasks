@@ -521,56 +521,46 @@ function shuffleChar(str, iterations) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
+
 function getNearestBigger(number) {
   const str = `${number}`;
-  let j;
-  let i;
+  let smallerDigit;
+  let greaterDigit;
+  const lastElementIndex = str.length - 1;
 
-  function findSmallerDigit() {
-    for (i = 0; i < str.length - 1; i += 1) {
-      if (str[str.length - 2 - i] < str[str.length - 1 - i]) {
-        i += 1;
-        break;
-      }
+  const arr = Array.from(str).reverse();
+
+  for (let i = 0; i < lastElementIndex; i += 1) {
+    if (arr[i] > arr[i + 1]) {
+      smallerDigit = i + 1;
+      break;
     }
-    return i / 1;
-  }
-  findSmallerDigit(str);
-
-  if (i === 1) {
-    const arr = Array.from(str);
-    [arr[str.length - 2], arr[str.length - 1]] = [
-      arr[str.length - 1],
-      arr[str.length - 2],
-    ];
-    return arr.join('') / 1;
   }
 
-  function findGreaterDigit() {
-    let greaterDigit = 0;
-    for (j = 0; j < i; j += 1) {
-      if (
-        str[str.length - 2 - j] < str[str.length - 1 - j] &&
-        str[str.length - 2 - j] > str[str.length - i]
-      ) {
-        greaterDigit = j;
-      }
+  if (smallerDigit === undefined) {
+    return str;
+  }
+
+  if (smallerDigit === 1) {
+    [arr[0], arr[1]] = [arr[1], arr[0]];
+    return arr.reverse().join('') / 1;
+  }
+
+  greaterDigit = smallerDigit - 1;
+  for (let i = greaterDigit; i > 0; i -= 1) {
+    if (arr[i - 1] < arr[i] && arr[i - 1] > arr[smallerDigit]) {
+      greaterDigit = i - 1;
     }
-    j = +greaterDigit + 1;
-    return j;
   }
 
-  findGreaterDigit();
+  [arr[greaterDigit], arr[smallerDigit]] = [
+    arr[smallerDigit],
+    arr[greaterDigit],
+  ];
 
-  const arr = Array.from(str);
-  const a = str.length - 1 - i;
-  const b = str.length - 1 - j;
+  const removed = arr.splice(smallerDigit).reverse();
 
-  [arr[a], arr[b]] = [arr[b], arr[a]];
-
-  const removed = arr.splice(a + 1).sort();
-
-  return (arr.join('') + removed.join('')) / 1;
+  return (removed.join('') + arr.sort().join('')) / 1;
 }
 
 module.exports = {
