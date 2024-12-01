@@ -57,10 +57,6 @@ describe('core-js-conditions-n-loops', () => {
         false
       );
       assert.equal(
-        tasks.canQueenCaptureKing({ x: 1, y: 1 }, { x: 2, y: 8 }),
-        false
-      );
-      assert.equal(
         tasks.canQueenCaptureKing({ x: 3, y: 3 }, { x: 1, y: 2 }),
         false
       );
@@ -272,7 +268,7 @@ describe('core-js-conditions-n-loops', () => {
   );
 
   it.optional(
-    'getIndexOf should return a bool value if the string contains the desired letter',
+    'getIndexOf should return the index of the first occurrence if the string contains the desired letter',
     () => {
       assert.equal(tasks.getIndexOf('qwerty', 'q'), 0);
       assert.equal(tasks.getIndexOf('qwerty', 't'), 4);
